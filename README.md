@@ -1,2 +1,2 @@
 # adhyasabhashya.in
-adhyasa bhashya website
+[adhyasa bhashya website](http://www.adhyasabhashya.in)
