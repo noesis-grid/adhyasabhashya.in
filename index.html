@@ -1,130 +1,480 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="gu" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adhyasa Bhashya — Coming Soon</title>
-  <meta name="description" content="Adhyasa Bhashya — A digital space dedicated to Adi Shankaracharya's introduction to the Brahma Sutra Bhashya." />
-  <style>
-    :root {
-      --bg: #faf8f4;
-      --surface: #ffffff;
-      --text: #1f1d1a;
-      --muted: #6b655c;
-      --accent: #9a5b25;
-      --border: #e7e1d7;
-    }
+  <meta name="description" content="Adi Shankaracharya's Adhyasa-Bhashya with original Sanskrit verses, Gujarati translation, interactive diagrams, Khyativada comparison, and glossary." />
+  <title>Adhyasa-Bhashya | અધ્યાસભાષ્ય — Gujarati Translation & Interactive Study</title>
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #121110;
-        --surface: #1a1816;
-        --text: #ece7df;
-        --muted: #9f978b;
-        --accent: #d49557;
-        --border: #2b2723;
-      }
-    }
+  <!-- Google Fonts: Valid Gujarati, Devanagari Sanskrit & Clean English UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: Georgia, "Times New Roman", serif;
-      line-height: 1.6;
-      padding: 1.5rem;
-    }
-
-    main {
-      max-width: 580px;
-      width: 100%;
-      text-align: center;
-      padding: 3.5rem 2.25rem;
-      background-color: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
-    }
-
-    .sanskrit {
-      font-size: 1.35rem;
-      color: var(--accent);
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
-    }
-
-    h1 {
-      font-size: clamp(1.9rem, 5vw, 2.5rem);
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      margin-bottom: 1rem;
-    }
-
-    .divider {
-      width: 48px;
-      height: 1px;
-      background-color: var(--accent);
-      margin: 1.25rem auto;
-      opacity: 0.6;
-    }
-
-    p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      margin-bottom: 2rem;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      padding: 0.45rem 0.9rem;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: var(--accent);
-    }
-
-    footer {
-      margin-top: 2.5rem;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 0.8rem;
-      color: var(--muted);
-      opacity: 0.75;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main>
-    <div class="sanskrit" lang="sa">अध्यास भाष्यम्</div>
-    <h1>Adhyasa Bhashya</h1>
-    <div class="divider" aria-hidden="true"></div>
-    <p>
-      This space is currently being prepared. Check back soon for the full site.
-    </p>
-    <div class="status">
-      <span class="dot" aria-hidden="true"></span>
-      Coming Soon
+  <!-- Reading Progress Bar -->
+  <div class="progress-track" aria-hidden="true">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Sticky Header & English Navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#top" class="brand" aria-label="Adhyasa-Bhashya Home">
+        <span class="brand-om" aria-hidden="true">ॐ</span>
+        <div class="brand-text">
+          <span class="brand-title">Adhyasa-Bhashya</span>
+          <span class="brand-sub gu-text">અધ્યાસભાષ્ય • આદિ શંકરાચાર્ય</span>
+        </div>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Primary Navigation">
+        <a href="#bhashya" class="nav-link">Text &amp; Translation</a>
+        <a href="#structure" class="nav-link">4 Layers Diagram</a>
+        <a href="#khyativada" class="nav-link">Khyativada</a>
+        <a href="#dialogues" class="nav-link">Dialogues</a>
+        <a href="#glossary" class="nav-link">Glossary</a>
+        <a href="#quiz" class="nav-link">Quiz</a>
+      </nav>
+
+      <div class="header-controls">
+        <div class="font-controls" role="group" aria-label="Adjust text size">
+          <button type="button" id="font-dec" class="icon-btn" title="Decrease font size" aria-label="Decrease font size">A-</button>
+          <button type="button" id="font-reset" class="icon-btn" title="Reset font size" aria-label="Reset font size">A</button>
+          <button type="button" id="font-inc" class="icon-btn" title="Increase font size" aria-label="Increase font size">A+</button>
+        </div>
+
+        <button type="button" id="theme-toggle" class="icon-btn theme-btn" title="Toggle Dark/Light Theme" aria-label="Toggle Dark or Light Mode">
+          <span class="theme-icon" id="theme-icon">☾</span>
+        </button>
+
+        <button type="button" id="mobile-menu-btn" class="icon-btn mobile-only" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation menu">
+          ☰
+        </button>
+      </div>
     </div>
-    <footer>adhyasabhashya.in</footer>
+
+    <!-- Mobile Navigation Drawer -->
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile Navigation" hidden>
+      <a href="#bhashya" class="mobile-nav-link">Text &amp; Translation (7 Sections)</a>
+      <a href="#structure" class="mobile-nav-link">Interactive 4 Layers Diagram</a>
+      <a href="#khyativada" class="mobile-nav-link">Khyativada &amp; Adhyasa Types</a>
+      <a href="#dialogues" class="mobile-nav-link">Philosophical Dialogues</a>
+      <a href="#glossary" class="mobile-nav-link">Searchable Glossary</a>
+      <a href="#quiz" class="mobile-nav-link">Self-Assessment Quiz</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-eyebrow">Advaita Vedanta • Brahma Sutra Bhashya Preamble</div>
+        <h1 class="hero-title gu-text">અધ્યાસભાષ્ય: ગુજરાતી અનુવાદ અને તાત્ત્વિક વિવેચન</h1>
+        <p class="hero-lead gu-text">
+          જગદ્ગુરુ આદિ શંકરાચાર્ય વિરચિત <strong>અધ્યાસભાષ્ય</strong> એ <em>બ્રહ્મસૂત્ર-શારીરકમીમાંસાભાષ્ય</em> નો પ્રારંભિક ઉપોદ્ઘાત છે, જે અદ્વૈત વેદાંતની સમગ્ર તત્ત્વમીમાંસાનો પાયો નાખે છે. પ્રકાશ અને અંધકારની જેમ પરસ્પર વિરુદ્ધ સ્વભાવ ધરાવતા ચેતન આત્મા (<em>વિષયી</em>) અને જડ દેહ-જગત્ (<em>વિષય</em>) ના અજ્ઞાનજન્ય આરોપ—<strong>અધ્યાસ</strong>—ની સમૂળ નિવૃત્તિ અને <strong>આત્મૈકત્વવિદ્યા</strong> ની પ્રાપ્તિ માટે જ સમગ્ર વેદાંતશાસ્ત્રનો આરંભ થાય છે.
+        </p>
+
+        <div class="hero-verse-card">
+          <div class="sanskrit-text">
+            “अस्यानर्थहेतोः प्रहाणाय आत्मैकत्वविद्याप्रतिपत्तये सर्वे वेदान्ता आरभ्यन्ते ॥”
+          </div>
+          <div class="hero-verse-gu gu-text">
+            “આ અનર્થના હેતુભૂત અધ્યાસની સમૂળ નિવૃત્તિ માટે તથા બ્રહ્મ-આત્મ એકત્વના જ્ઞાનની પ્રાપ્તિ માટે સર્વ વેદાંતોનો આરંભ થાય છે.”
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#bhashya" class="btn btn-primary">Start Reading (7 Sections)</a>
+          <a href="#structure" class="btn btn-secondary">Explore Interactive Diagram</a>
+        </div>
+
+        <div class="hero-note gu-text">
+          <strong>પાઠ-નોંધ:</strong> ખંડ ૬ અને ૭ (પરંપરાગત ખંડ ૧૮ અને ૧૯) મૂળ સંપૂર્ણ સંસ્કૃત પાઠ અને ભરત પુરુષોત્તમ સરસ્વતી કૃત ગુજરાતી ભાષાનુવાદ પર સીધા આધારિત છે; ખંડ ૧ થી ૫ મૂળ સંસ્કૃત સૂત્રાત્મક પંક્તિઓ તેમજ જ્યોર્જ થિબો અને સ્વામી વીરેશ્વરાનંદના પ્રમાણભૂત વિવેચનોના આધારે વફાદાર ગુજરાતીમાં પ્રસ્તુત છે. <span class="hint-inline">(Highlighted underlined Gujarati terms are clickable for instant definitions.)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 1: 7-PART ADHYASA-BHASHYA EXPLORER -->
+    <section id="bhashya" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 1 • Original Text &amp; Translation</span>
+          <h2 class="section-title gu-text">અધ્યાસભાષ્યનો ક્રમબદ્ધ ગુજરાતી અનુવાદ</h2>
+          <p class="section-desc">Explore all 7 logical sections with original Devanagari Sanskrit verses, authentic Gujarati translation, and study tracking.</p>
+        </div>
+
+        <!-- Study Controls Bar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <button type="button" id="sanskrit-toggle" class="tool-btn active" aria-pressed="true">
+              Sanskrit Verses: <strong>ON</strong>
+            </button>
+            <button type="button" id="expand-all-btn" class="tool-btn">Expand All</button>
+            <button type="button" id="collapse-all-btn" class="tool-btn">Collapse All</button>
+          </div>
+          <div class="study-badge" id="study-progress-text">Read: 0 / 7 sections</div>
+        </div>
+
+        <!-- Quick Section Jump Pills -->
+        <div class="pill-strip" id="section-jump-pills" aria-label="Jump to Bhashya section"></div>
+
+        <!-- 7 Sections Accordion / Cards Container -->
+        <div class="bhashya-list" id="bhashya-container"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE ADHYASA ARCHITECTURE DIAGRAM -->
+    <section id="structure" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 2 • Visual Architecture</span>
+          <h2 class="section-title gu-text">અધ્યાસની રચના: સત્ય-અનૃત મિથુનીકરણ અને આરોપના ચાર સ્તરો</h2>
+          <p class="section-desc">See how opposite natures (Subject &amp; Object) blend together, and click any concentric layer below to inspect Adi Shankaracharya's direct examples.</p>
+        </div>
+
+        <div class="viz-card">
+          <!-- Tier 1: Polarity Diagram -->
+          <div class="tier-heading gu-text">ભાગ ૧ • પ્રકાશ અને અંધકાર જેવા વિરુદ્ધ સ્વભાવોનું મિથુનીકરણ</div>
+
+          <div class="polarity-grid">
+            <div class="node-card node-vishayi">
+              <svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"></circle>
+                <line x1="12" y1="2" x2="12" y2="5"></line>
+                <line x1="12" y1="19" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="7.05" y2="7.05"></line>
+                <line x1="16.95" y1="16.95" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="5" y2="12"></line>
+                <line x1="19" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="19.07" x2="7.05" y2="16.95"></line>
+                <line x1="16.95" y1="7.05" x2="19.07" y2="4.93"></line>
+              </svg>
+              <div class="node-title gu-text">વિષયી — અસ્મદ્ (હું)</div>
+              <div class="node-subtitle gu-text">સત્ય • ચૈતન્ય • પ્રકાશવત્</div>
+            </div>
+
+            <div class="cross-svg-wrap">
+              <svg class="cross-svg" viewBox="0 0 340 128" role="img" aria-label="Mutual superimposition arrows between Vishayi and Vishaya">
+                <defs>
+                  <marker id="arrow-indigo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                    <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="var(--indigo)" />
+                  </marker>
+                  <marker id="arrow-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+                    <path d="M 1 1.5 L 8.5 5 L 1 8.5 z" fill="var(--text-muted)" />
+                  </marker>
+                </defs>
+                <text x="170" y="18" text-anchor="middle" class="cross-label" fill="var(--indigo)">
+                  અધ્યાસ: ચૈતન્ય-અસ્તિત્વનો જડમાં આરોપ
+                </text>
+                <path d="M 10 38 C 110 38, 230 90, 326 90" fill="none" stroke="var(--indigo)" stroke-width="2" marker-end="url(#arrow-indigo)" />
+                <path d="M 330 38 C 230 38, 110 90, 14 90" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow-muted)" />
+                <circle cx="170" cy="64" r="5.5" fill="var(--surface-card)" stroke="var(--accent)" stroke-width="2.2" />
+                <text x="170" y="116" text-anchor="middle" class="cross-label" fill="var(--text-muted)">
+                  અધ્યાસ: જડ ધર્મોનો આત્મામાં આરોપ
+                </text>
+              </svg>
+            </div>
+
+            <div class="mobile-cross-info gu-text">
+              <div class="mobile-arrow-row indigo-text"><span>↓</span><span>અધ્યાસ: ચૈતન્ય-અસ્તિત્વનો જડમાં આરોપ</span></div>
+              <div class="mobile-arrow-row muted-text"><span>↑</span><span>અધ્યાસ: જડ ધર્મોનો આત્મામાં આરોપ</span></div>
+            </div>
+
+            <div class="node-card node-vishaya">
+              <svg class="node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <div class="node-title gu-text">વિષય — યુષ્મદ્ (તું)</div>
+              <div class="node-subtitle gu-text">અનૃત • જડ • તમસ્વત્</div>
+            </div>
+          </div>
+
+          <div class="outcome-wrap">
+            <svg class="outcome-connector" viewBox="0 0 24 18" aria-hidden="true">
+              <line x1="12" y1="0" x2="12" y2="13" stroke="var(--border-strong)" stroke-width="1.6" />
+              <path d="M 8 10 L 12 16 L 16 10" fill="none" stroke="var(--border-strong)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <div class="outcome-pill gu-text">
+              <span class="outcome-eyebrow">સત્યાનૃતે મિથુનીકૃત્ય</span>
+              <span class="outcome-main">અહમિદમ્ (હું આ છું) • મમેદમ્ (આ મારું છે)</span>
+            </div>
+          </div>
+
+          <hr class="viz-divider" />
+
+          <!-- Tier 2: Interactive 5-Ring Concentric Diagram -->
+          <div class="tier-heading gu-text">ભાગ ૨ • સર્વસાક્ષી પ્રત્યગાત્માની આસપાસ અધ્યાસના ચાર સ્તરો (ખંડ ૧૮)</div>
+
+          <div class="tier-two-grid">
+            <div class="rings-panel">
+              <svg class="rings-svg" id="rings-svg" viewBox="0 0 360 360" role="group" aria-label="Interactive five concentric layers of Adhyasa">
+                <g class="ring-group" data-index="0" role="button" tabindex="0" aria-label="Layer 1: Bahya Dharmas">
+                  <circle class="ring-circle" cx="180" cy="180" r="174" fill="var(--ring-0-fill)" stroke="var(--ring-0-stroke)" />
+                  <text class="ring-label" x="180" y="27" text-anchor="middle">૧. બાહ્ય ધર્મો</text>
+                </g>
+                <g class="ring-group" data-index="1" role="button" tabindex="0" aria-label="Layer 2: Deha Dharmas">
+                  <circle class="ring-circle" cx="180" cy="180" r="142" fill="var(--ring-1-fill)" stroke="var(--ring-1-stroke)" />
+                  <text class="ring-label" x="180" y="59" text-anchor="middle">૨. દેહધર્મો</text>
+                </g>
+                <g class="ring-group" data-index="2" role="button" tabindex="0" aria-label="Layer 3: Indriya Dharmas">
+                  <circle class="ring-circle" cx="180" cy="180" r="110" fill="var(--ring-2-fill)" stroke="var(--ring-2-stroke)" />
+                  <text class="ring-label" x="180" y="91" text-anchor="middle">૩. ઇન્દ્રિયધર્મો</text>
+                </g>
+                <g class="ring-group" data-index="3" role="button" tabindex="0" aria-label="Layer 4: Antahkarana Dharmas">
+                  <circle class="ring-circle" cx="180" cy="180" r="78" fill="var(--ring-3-fill)" stroke="var(--ring-3-stroke)" />
+                  <text class="ring-label" x="180" y="123" text-anchor="middle">૪. અંતઃકરણધર્મો</text>
+                </g>
+                <g class="ring-group active" data-index="4" role="button" tabindex="0" aria-label="Center Core: Sarvasakshi Pratyagatman">
+                  <circle class="ring-circle" cx="180" cy="180" r="46" fill="var(--indigo)" stroke="var(--indigo-deep)" />
+                  <text class="core-label" x="180" y="175" text-anchor="middle">સર્વસાક્ષી</text>
+                  <text class="core-label" x="180" y="192" text-anchor="middle">પ્રત્યગાત્મા</text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="detail-panel">
+              <div class="layer-tabs" id="layer-tabs" role="tablist" aria-label="Select Adhyasa Layer"></div>
+
+              <div class="detail-card gu-text" id="detail-card" role="tabpanel" aria-live="polite">
+                <span class="detail-badge" id="detail-badge"></span>
+                <h3 class="detail-title" id="detail-title"></h3>
+                <div class="detail-sanskrit sanskrit-text" id="detail-sanskrit"></div>
+                <div class="detail-section-label" id="detail-example-label"></div>
+                <p class="detail-example" id="detail-example"></p>
+                <p class="detail-role" id="detail-role"></p>
+                <div class="detail-hint">
+                  <span>↗</span>
+                  <span id="detail-hint-text"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: KHYATIVADA & TWO TYPES OF ADHYASA -->
+    <section id="khyativada" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 3 • Comparative Philosophy</span>
+          <h2 class="section-title gu-text">ખ્યાતિવાદ (ચાર દાર્શનિક મતો) અને અધ્યાસના બે મુખ્ય પ્રકારો</h2>
+          <p class="section-desc">Filter and compare how four major Indian philosophical schools define perceptual error, and contrast Svarupa vs. Samsarga Adhyasa.</p>
+        </div>
+
+        <!-- Khyativada Filter Controls (English UI) -->
+        <div class="filter-bar" id="khyati-filter-bar" role="group" aria-label="Filter philosophical schools">
+          <button type="button" class="filter-btn active" data-filter="all">All 4 Schools</button>
+          <button type="button" class="filter-btn" data-filter="advaita">Advaita Vedanta</button>
+          <button type="button" class="filter-btn" data-filter="buddhist">Buddhist Schools</button>
+          <button type="button" class="filter-btn" data-filter="mimamsa">Prabhakara Mimamsa</button>
+          <button type="button" class="filter-btn" data-filter="nyaya">Nyaya</button>
+        </div>
+
+        <div class="khyati-grid" id="khyati-grid"></div>
+
+        <!-- Unifying Connector & Common Thread Banner -->
+        <div class="unifying-connector" aria-hidden="true">
+          <svg width="240" height="20" viewBox="0 0 240 20" fill="none">
+            <path d="M12 1V8C12 10.2 13.8 12 16 12H224C226.2 12 228 10.2 228 8V1" stroke="var(--border-strong)" stroke-width="1.3" />
+            <path d="M120 12V19" stroke="var(--accent)" stroke-width="1.8" />
+            <circle cx="120" cy="12" r="3" fill="var(--accent)" />
+          </svg>
+        </div>
+
+        <div class="summary-strip gu-text">
+          <span class="summary-label">સર્વસંમત મૂળ તત્ત્વ:</span>
+          <span class="summary-formula">અતસ્મિંસ્તદ્બુદ્ધિઃ</span>
+          <span class="summary-meaning">(જે વસ્તુ જેવી નથી, તેમાં તેવી બુદ્ધિ થવી)</span>
+        </div>
+
+        <!-- Two Types of Adhyasa Interactive Contrast -->
+        <div class="subsection-head">
+          <h3 class="subsection-title gu-text">અધ્યાસના બે મુખ્ય પ્રકારો: સ્વરૂપ-અધ્યાસ વિરુદ્ધ સંસર્ગ-અધ્યાસ</h3>
+          <div class="mode-switch" role="group" aria-label="Highlight Adhyasa type">
+            <button type="button" class="switch-btn active" data-type-view="both">Compare Both</button>
+            <button type="button" class="switch-btn" data-type-view="svarupa">Focus: Svarupa</button>
+            <button type="button" class="switch-btn" data-type-view="samsarga">Focus: Samsarga</button>
+          </div>
+        </div>
+
+        <div class="types-grid" id="types-grid">
+          <!-- Svarupa-Adhyasa -->
+          <article class="type-card svarupa" data-type="svarupa">
+            <div class="type-header">
+              <div class="type-icon-box" aria-hidden="true">
+                <svg width="46" height="46" viewBox="0 0 42 42" fill="none">
+                  <path d="M7 31C14 28 28 28 35 31" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.55" />
+                  <path d="M9 34.5C15 32.5 27 32.5 33 34.5" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 3" opacity="0.4" />
+                  <path d="M7 23C10 15 16 15 19 21C22 27 28 27 31 19C32.5 15 35 14 36.5 15.5" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  <circle cx="35.5" cy="14.8" r="2.3" fill="var(--teal)" />
+                  <circle cx="36.2" cy="14.3" r="0.7" fill="var(--surface-card)" />
+                </svg>
+              </div>
+              <div class="type-titles gu-text">
+                <h4 class="type-name">સ્વરૂપ-અધ્યાસ (નિરુપાધિક)</h4>
+                <span class="type-analogy">દૃષ્ટાંત: દોરડામાં સર્પનો ભ્રમ</span>
+              </div>
+            </div>
+            <div class="type-body gu-text">
+              <div>
+                <span class="field-label">પ્રક્રિયા</span>
+                <p>અંધારામાં દોરડાને સર્પ માની લેતાં અધિષ્ઠાન (દોરડું) ઢંકાઈ જાય છે અને કેવળ અધ્યસ્ત (સર્પ) જ દેખાય છે. અહીં કોઈ બાહ્ય ઉપાધિ હોતી નથી.</p>
+              </div>
+              <div class="type-application">
+                <span class="field-label">વેદાંતમાં પ્રયોગ</span>
+                <p>અનાત્મા (દેહ, મન, ઇન્દ્રિયો) નો આત્મા પર સ્વરૂપ-અધ્યાસ થાય છે—મનુષ્ય પોતાને જ દેહ માની બેસે છે.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Samsarga-Adhyasa -->
+          <article class="type-card samsarga" data-type="samsarga">
+            <div class="type-header">
+              <div class="type-icon-box" aria-hidden="true">
+                <svg width="46" height="46" viewBox="0 0 42 42" fill="none">
+                  <polygon points="15,8 23,19 15,34 7,19" fill="var(--accent)" fill-opacity="0.22" stroke="var(--text-muted)" stroke-width="1.8" stroke-linejoin="round" />
+                  <path d="M15 8V34M7 19H23" stroke="var(--text-muted)" stroke-width="1" stroke-opacity="0.45" />
+                  <path d="M25.5 18L27.5 18M25.5 22L27.5 22" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" />
+                  <circle cx="33" cy="17" r="2.2" fill="#DC2626" opacity="0.85" />
+                  <circle cx="33" cy="23" r="2.2" fill="#DC2626" opacity="0.85" />
+                  <circle cx="30" cy="20" r="2.2" fill="#DC2626" opacity="0.85" />
+                  <circle cx="36" cy="20" r="2.2" fill="#DC2626" opacity="0.85" />
+                  <circle cx="33" cy="20" r="1.8" fill="var(--accent)" />
+                </svg>
+              </div>
+              <div class="type-titles gu-text">
+                <h4 class="type-name">સંસર્ગ-અધ્યાસ (સોપાધિક)</h4>
+                <span class="type-analogy">દૃષ્ટાંત: લાલ ફૂલ પાસે સ્ફટિક લાલ દેખાવો</span>
+              </div>
+            </div>
+            <div class="type-body gu-text">
+              <div>
+                <span class="field-label">પ્રક્રિયા</span>
+                <p>લાલ ફૂલની નજીક રહેલો સ્ફટિક લાલ દેખાય છે—અહીં સ્ફટિક અને ફૂલ બંને વિદ્યમાન દેખાય છે, પરંતુ ઉપાધિ (ફૂલ) ની લાલાશ સ્ફટિકમાં આરોપિત થઈ જાય છે.</p>
+              </div>
+              <div class="type-application">
+                <span class="field-label">વેદાંતમાં પ્રયોગ</span>
+                <p>જડ દેહ, મન અને ઇન્દ્રિયોમાં આત્માના કેવળ અસ્તિત્વ (<em>સત્</em>) અને ચૈતન્ય (<em>ચિત્</em>) ધર્મનો સંસર્ગ-અધ્યાસ થાય છે.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PHILOSOPHICAL DIALOGUES & ANALOGIES -->
+    <section id="dialogues" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 4 • Deeper Inquiry</span>
+          <h2 class="section-title gu-text">દાર્શનિક સૂક્ષ્મતા, દૃષ્ટાંતો અને પ્રતિવાદ-સંવાદ</h2>
+          <p class="section-desc">Switch tabs to examine key sub-commentary insights (*Bhamati*), classical analogies, and the Ramanuja vs. Shankara philosophical debate.</p>
+        </div>
+
+        <div class="dialogue-tabs" role="tablist" aria-label="Philosophical Inquiry Topics">
+          <button type="button" class="dialogue-tab active" role="tab" aria-selected="true" data-dialogue="bhamati">1. Why 'You' (Yushmad)?</button>
+          <button type="button" class="dialogue-tab" role="tab" aria-selected="false" data-dialogue="seed">2. Seed &amp; Tree Logic</button>
+          <button type="button" class="dialogue-tab" role="tab" aria-selected="false" data-dialogue="thorn">3. Removing Avidya</button>
+          <button type="button" class="dialogue-tab" role="tab" aria-selected="false" data-dialogue="debate">4. Ramanuja vs. Shankara</button>
+        </div>
+
+        <div class="dialogue-panel gu-text" id="dialogue-content" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: SEARCHABLE PHILOSOPHICAL GLOSSARY -->
+    <section id="glossary" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 5 • Reference Dictionary</span>
+          <h2 class="section-title gu-text">પારિભાષિક શબ્દકોશ (Glossary)</h2>
+          <p class="section-desc">Search in Gujarati or English transliteration (e.g., <em>adhyasa</em>, <em>pratyagatman</em>, <em>mithya</em>, <em>pramana</em>).</p>
+        </div>
+
+        <div class="search-wrap">
+          <input type="search" id="glossary-search" class="search-input" placeholder="Search term in English or Gujarati (e.g. adhyasa, અવિદ્યા, સાક્ષી)..." aria-label="Search philosophical glossary" />
+          <span class="search-count" id="glossary-count">10 terms</span>
+        </div>
+
+        <div class="glossary-grid" id="glossary-grid"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: INTERACTIVE CONCEPT QUIZ -->
+    <section id="quiz" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-kicker">Part 6 • Self-Assessment</span>
+          <h2 class="section-title gu-text">સ્વ-મૂલ્યાંકન પ્રશ્નોત્તરી (Concept Check)</h2>
+          <p class="section-desc">Test your grasp of Adhyasa-Bhashya concepts with instant Gujarati explanations.</p>
+        </div>
+
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-top">
+            <span class="quiz-step" id="quiz-step">Question 1 of 6</span>
+            <span class="quiz-score" id="quiz-score">Score: 0</span>
+          </div>
+          <h3 class="quiz-question gu-text" id="quiz-question"></h3>
+          <div class="quiz-options" id="quiz-options"></div>
+          <div class="quiz-feedback gu-text" id="quiz-feedback" hidden></div>
+          <div class="quiz-actions">
+            <button type="button" id="quiz-next" class="btn btn-primary" hidden>Next Question →</button>
+            <button type="button" id="quiz-restart" class="btn btn-secondary" hidden>Restart Quiz</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Footer & Further Reading References -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3 class="footer-heading">Adhyasa-Bhashya Study Portal</h3>
+          <p class="footer-text gu-text">
+            શ્રીમત્પરમહંસ-પરિવ્રાજકાચાર્ય શ્રીગોવિન્દભગવત્પૂજ્યપાદશિષ્ય શ્રીમચ્છંકરભગવત્પાદ કૃત ‘બ્રહ્મસૂત્ર-શારીરકમીમાંસાભાષ્ય’ ના પ્રારંભિક ‘અધ્યાસભાષ્ય’ નો સરળ ગુજરાતી અભ્યાસ.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h3 class="footer-heading">Gujarati &amp; Classical References</h3>
+          <ul class="ref-list gu-text">
+            <li>ભરત પુરુષોત્તમ સરસ્વતી — <em>બ્રહ્મસૂત્ર શાંકરભાષ્ય-ગ્રન્થમાલા (પુષ્પ-૧: અધ્યાસભાષ્યમ્)</em></li>
+            <li>મણિલાલ જાદવરાવ ત્રિવેદી — <em>શાંકરભાષ્ય-અનુવાદ</em></li>
+            <li><em>ગુજરાતી વિશ્વકોશ</em> — “કેવલાદ્વૈતવાદ-વેદાંત”</li>
+            <li>સ્વામી ગંભીરાનંદ (અદ્વૈત આશ્રમ), સ્વામી વીરેશ્વરાનંદ, જ્યોર્જ થિબો — English Translations</li>
+            <li>પદ્મપાદાચાર્ય (<em>પંચપાદિકા</em>) અને વાચસ્પતિ મિશ્ર (<em>ભામતી</em>) — Classical Commentaries</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Built as a static web app for GitHub Pages • Pure HTML, CSS &amp; JS</span>
+        <a href="#top" class="back-top">Back to Top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Inline Term Definition Modal / Popover -->
+  <div class="modal-backdrop" id="term-modal" role="dialog" aria-modal="true" aria-labelledby="modal-term-title" hidden>
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow" id="modal-term-en"></span>
+          <h3 class="modal-title gu-text" id="modal-term-title"></h3>
+        </div>
+        <button type="button" class="icon-btn" id="modal-close" aria-label="Close definition">✕</button>
+      </div>
+      <div class="modal-body gu-text">
+        <p class="modal-synonym" id="modal-term-synonym"></p>
+        <p class="modal-meaning" id="modal-term-meaning"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
